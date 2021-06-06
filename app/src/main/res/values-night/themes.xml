@@ -1,0 +1,76 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="AppTheme.OverlapSystemBar" parent="Theme.MaterialComponents.DayNight.NoActionBar" />
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+  <!--      <item name="colorPrimary">@color/purple_200</item>-->
+        <item name="colorPrimary">@color/lightBlack</item>
+        <item name="colorPrimaryVariant">@color/blackVariant</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="windowActionModeOverlay">true</item>
+        <!--  background color of activities -->
+        <item name="android:colorBackground">@color/blackVariant</item>
+
+        <item name="android:textColorPrimary">@color/white</item>
+
+        <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+        <item name="colorAccent">@color/white</item>
+
+        <!-- Secondary brand color. -->
+        <!-- used for floating action button background-->
+        <item name="colorSecondary">@color/lightBlack</item>
+        <item name="colorSecondaryVariant">@color/teal_200</item>
+        <!-- used for floating action button icon-->
+        <item name="colorOnSecondary">@color/white</item>
+
+        <!--   used ot chaneg the color of menu item-->
+        <item name="android:itemTextAppearance" >@style/TextAppearance.App.Subtitle1</item>
+        <item name="android:textAppearanceSmallPopupMenu" >@style/TextAppearance.App.Subtitle1</item>
+        <!--<item name="actionBarTheme">@style/MyActionbar</item>-->
+
+       <!-- <item name="colorSurface">@color/lightBlack</item>-->
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+
+        <!--used to change action bar settings icon color(three dots)  -->
+        <item name="android:textColorSecondary">@color/white</item>
+
+        <item name="actionModeBackground">@color/colorPrimary</item>
+        <item name="actionModeStyle">@style/ContextualActionModeTheme</item>
+        <item name="actionModeCloseDrawable">@drawable/ic_baseline_close_24</item>
+        <!-- Customize your theme here. -->
+    </style>
+
+  <!--  <style name="Toolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+-->    <style name="Toolbar" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="titleTextColor">@color/white</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TextAppearance.App.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
+     <!--   <item name="fontFamily">@font/rubik</item>
+        <item name="android:fontFamily">@font/rubik</item>-->
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="ContextualActionModeTheme" parent="@style/Widget.AppCompat.ActionMode">
+        <item name="titleTextStyle">@style/actionModeTitleColor</item>
+        <item name="actionModeCloseButtonStyle">@style/actionModeTitleColor</item>
+    </style>
+
+    <style name="actionModeTitleColor" parent="TextAppearance.AppCompat.Widget.ActionMode.Title">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:color">@color/white</item>
+    </style>
+
+    <style name="actionModeCloseButtonStyle" parent="Base.Widget.AppCompat.ActionButton.CloseMode">
+        <item name="android:background">@color/white</item>
+        <item name="android:minWidth">56dp</item>
+    </style>
+
+
+
+</resources>
