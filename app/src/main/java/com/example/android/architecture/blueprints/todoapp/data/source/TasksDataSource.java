@@ -59,6 +59,8 @@ public interface TasksDataSource {
 
     void clearSelectedTasks(List<String> selectedTaskIds, boolean selected);
 
+    void deleteSelectedTasks(List<String> selectedTaskIds);
+
     void refreshTasks();
 
     void deleteAllTasks();

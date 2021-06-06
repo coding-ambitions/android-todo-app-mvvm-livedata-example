@@ -95,15 +95,16 @@ public class TasksFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_clear:
+           /* case R.id.menu_clear:
                 mTasksViewModel.clearCompletedTasks();
-                break;
-            case R.id.menu_filter:
-                showFilteringPopUpMenu();
                 break;
             case R.id.menu_refresh:
                 mTasksViewModel.loadTasks(true);
+                break;*/
+            case R.id.menu_filter:
+                showFilteringPopUpMenu();
                 break;
+
         }
         return true;
     }
@@ -112,8 +113,6 @@ public class TasksFragment extends Fragment {
     public void onCreateOptionsMenu(final Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.tasks_fragment_menu, menu);
         this.menu = menu;
-
-
 
        /* new Handler().postDelayed(new Runnable() {
             @Override
@@ -187,6 +186,7 @@ public class TasksFragment extends Fragment {
         mTasksViewModel.getSelectedTaskIds().observe(getViewLifecycleOwner(), new Observer<List<String>>() {
             @Override
             public void onChanged(List<String> strings) {
+                Log.d(TAG,"getSelectedTaskIds()_onChanged="+strings.size());
                 if(mActionMode!=null){
                     if(strings.size()>0){
                         mActionMode.setTitle(strings.size()+" Selected");
@@ -195,6 +195,18 @@ public class TasksFragment extends Fragment {
                     }
 
                 }
+            }
+        });
+
+        mTasksViewModel.getMultiSelectMode().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if(aBoolean){
+                    mTasksFragBinding.refreshLayout.setEnabled(false);
+                }else{
+                    mTasksFragBinding.refreshLayout.setEnabled(true);
+                }
+
             }
         });
     }
@@ -303,15 +315,15 @@ public class TasksFragment extends Fragment {
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.option_1:
-                    mTasksViewModel.setmSnackbarText(R.string.option1_selected);
-                    //Toast.makeText(getActivity(), "Option 1 selected", Toast.LENGTH_SHORT).show();
+                    //TODO show confirm delete dialog here
+                    mTasksViewModel.deleteSelectedTasks();
                     mode.finish();
                     return true;
-                case R.id.option_2:
-                    mTasksViewModel.setmSnackbarText(R.string.option1_selected);
+              /*  case R.id.option_2:
+                   // mTasksViewModel.setmSnackbarText(R.string.option1_selected);
                     // Toast.makeText(getActivity(), "Option 2 selected", Toast.LENGTH_SHORT).show();
                     mode.finish();
-                    return true;
+                    return true;*/
                 default:
                     return false;
             }

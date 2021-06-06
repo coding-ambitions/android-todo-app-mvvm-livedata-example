@@ -105,4 +105,12 @@ public interface TasksDao {
     @Query("UPDATE tasks SET selected = :selected WHERE entryid IN (:selectedTasks)")
     void updateSelectedTasks(List<String> selectedTasks, boolean selected);
 
+    /**
+     * delete all tasks selected .
+     * @return number of tasks deleted
+     *
+     */
+    @Query("DELETE FROM tasks WHERE entryid IN (:selectedTasks)")
+    int deleteSelectedTasks(List<String> selectedTasks);
+
 }

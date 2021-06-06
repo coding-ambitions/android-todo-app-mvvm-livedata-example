@@ -206,27 +206,6 @@ public class TasksRepository implements TasksDataSource {
         }
     }
 
-    @Override
-    public void clearSelectedTasks(List<String> selectedTaskIds, boolean selected) {
-        mTasksRemoteDataSource.clearCompletedTasks();
-        mTasksLocalDataSource.clearCompletedTasks();
-
-        // Do in memory cache update to keep the app UI up to date
-        if (mCachedTasks == null) {
-            mCachedTasks = new LinkedHashMap<>();
-        }
-
-        for (String taskid:selectedTaskIds) {
-            if(mCachedTasks.containsKey(taskid)){
-                Task task = getTaskWithId(taskid);
-                Task updatedTask = new Task(task.getTitle(), task.getDescription(), task.getId());
-                mCachedTasks.put(taskid,updatedTask);
-            }
-        }
-
-    }
-
-
     /**
      * Gets tasks from local data source (sqlite) unless the table is new or empty. In that case it
      * uses the network data source. This is done to simplify the sample.
@@ -366,5 +345,43 @@ public class TasksRepository implements TasksDataSource {
         } else {
             return mCachedTasks.get(id);
         }
+    }
+
+    @Override
+    public void clearSelectedTasks(List<String> selectedTaskIds, boolean selected) {
+        mTasksRemoteDataSource.clearCompletedTasks();
+        mTasksLocalDataSource.clearCompletedTasks();
+
+        // Do in memory cache update to keep the app UI up to date
+        if (mCachedTasks == null) {
+            mCachedTasks = new LinkedHashMap<>();
+        }
+
+        for (String taskid:selectedTaskIds) {
+            if(mCachedTasks.containsKey(taskid)){
+                Task task = getTaskWithId(taskid);
+                Task updatedTask = new Task(task.getTitle(), task.getDescription(), task.getId());
+                mCachedTasks.put(taskid,updatedTask);
+            }
+        }
+
+    }
+
+    @Override
+    public void deleteSelectedTasks(List<String> selectedTaskIds) {
+        mTasksRemoteDataSource.deleteSelectedTasks(selectedTaskIds);
+        mTasksLocalDataSource.deleteSelectedTasks(selectedTaskIds);
+
+        // Do in memory cache update to keep the app UI up to date
+        if (mCachedTasks == null) {
+            mCachedTasks = new LinkedHashMap<>();
+        }
+
+        for (String taskid:selectedTaskIds) {
+            if(mCachedTasks.containsKey(taskid)){
+                mCachedTasks.remove(taskid);
+            }
+        }
+
     }
 }

@@ -16,6 +16,7 @@
 
 package com.example.android.architecture.blueprints.todoapp.tasks;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -146,16 +147,6 @@ public class TasksViewModel extends ViewModel {
         loadTasks(false, false);
     }
 
-    public void clearSelectedTasks(final List<String> selectedTaskIds, final boolean selected) {
-        mTasksRepository.clearSelectedTasks(selectedTaskIds,selected);
-        //mSnackbarText.setValue(new Event<>(R.string.completed_tasks_cleared));
-        loadTasks(false, false);
-    }
-
-    public void clearSelectedTasks(final boolean selected){
-        clearSelectedTasks(selectedTaskIds.getValue(),selected);
-    }
-
     public void completeTask(Task task, boolean completed) {
         // Notify repository
         if (completed) {
@@ -231,14 +222,6 @@ public class TasksViewModel extends ViewModel {
     void openTask(String taskId) {
         mOpenTaskEvent.setValue(new Event<>(taskId));
 
-    }
-
-    void openSelectTaskActionMode() {
-        mOpenSelectTaskActionMode.setValue(true);
-    }
-
-    void closeSelectTaskActionMode() {
-        mOpenSelectTaskActionMode.setValue(false);
     }
 
     void handleActivityResult(int requestCode, int resultCode) {
@@ -323,6 +306,25 @@ public class TasksViewModel extends ViewModel {
         //mOpenTaskEvent.setValue(new Event<>(taskId));
     }
 
+    public void clearSelectedTasks(final List<String> selectedTaskIds, final boolean selected) {
+        mTasksRepository.clearSelectedTasks(selectedTaskIds,selected);
+        //mSnackbarText.setValue(new Event<>(R.string.completed_tasks_cleared));
+        loadTasks(false, false);
+    }
+
+    public void clearSelectedTasks(final boolean selected){
+        clearSelectedTasks(selectedTaskIds.getValue(),selected);
+        selectedTaskIds.getValue().clear();
+    }
+
+    void openSelectTaskActionMode() {
+        mOpenSelectTaskActionMode.setValue(true);
+    }
+
+    void closeSelectTaskActionMode() {
+        mOpenSelectTaskActionMode.setValue(false);
+    }
+
     void updateSelectedTaskIds(List<String> selectedTaskIdsValue){
         selectedTaskIds.setValue(selectedTaskIdsValue);
     }
@@ -331,5 +333,12 @@ public class TasksViewModel extends ViewModel {
         multiSelectMode.setValue(multiSelectMode1);
     }
 
+    public void deleteSelectedTasks() {
+        mTasksRepository.deleteSelectedTasks(selectedTaskIds.getValue());
+        selectedTaskIds.getValue().clear();
+        Log.d("TAG","selectedTaskIds_size="+selectedTaskIds.getValue().size());
+        mSnackbarText.setValue(new Event<>(R.string.selected_tasks_deleted));
+        loadTasks(false, true);
+    }
 
 }

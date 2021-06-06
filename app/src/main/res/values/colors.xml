@@ -33,7 +33,9 @@
     <color name="lightBlack">#272727</color>
     <color name="lightBlackVariant">#272727</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="colorBackground">#FFFFFFFF</color>
+    <color name="mainBackground">#F2F5FE</color>
     <color name="drawerHeaderColor">@color/colorPrimary</color>
-    <color name="drawerbgColor">@color/white</color>
+    <color name="drawerbgColor">@color/colorBackground</color>
 
 </resources>

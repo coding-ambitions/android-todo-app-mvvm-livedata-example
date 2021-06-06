@@ -17,6 +17,7 @@
 
     <data>
         <import type="android.view.View.OnClickListener" />
+        <import type="android.view.View" />
 
         <variable
             name="task"
@@ -25,11 +26,16 @@
         <variable
             name="listener"
             type="com.example.android.architecture.blueprints.todoapp.tasks.TaskItemUserActionsListener" />
+
+        <variable
+            name="taskViewModel"
+            type="com.example.android.architecture.blueprints.todoapp.tasks.TasksViewModel" />
     </data>
 
     <LinearLayout
+        android:id="@+id/task_main_layout"
         android:layout_width="match_parent"
-        android:layout_height="?android:attr/listPreferredItemHeight"
+        android:layout_height="?android:attr/listPreferredItemHeightSmall"
         android:background="@{task.completed ? @drawable/list_completed_touch_feedback : @drawable/touch_feedback}"
         android:orientation="horizontal"
         android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -39,6 +45,7 @@
         android:onClick="@{(view) -> listener.onTaskClicked(task,view)}">
 
         <CheckBox
+            android:visibility="@{taskViewModel.multiSelectMode ? View.GONE : View.VISIBLE}"
             android:id="@+id/complete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -46,13 +53,21 @@
             android:onClick="@{(view) -> listener.onCompleteChanged(task, view)}"
             android:checked="@{task.completed}"/>
 
+        <RadioButton
+            android:visibility="@{taskViewModel.multiSelectMode ? View.VISIBLE : View.GONE}"
+            android:id="@+id/select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:onClick="@{(view) -> listener.onRadiobuttonClicked(task, view , taskMainLayout)}"
+            />
+
         <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             android:text="@{task.titleForList}" />
     </LinearLayout>
 </layout>

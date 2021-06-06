@@ -37,7 +37,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/loading"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:visibility="@{stats.dataLoading ? View.VISIBLE : View.GONE}" />
 
         <LinearLayout
@@ -51,21 +50,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/statistics_no_tasks"
-                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:visibility="@{stats.empty ? View.VISIBLE : View.GONE}" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{@string/statistics_active_tasks(stats.numberOfActiveTasks)}"
-                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:visibility="@{stats.empty ? View.GONE : View.VISIBLE}" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{@string/statistics_completed_tasks(stats.numberOfCompletedTasks)}"
-                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:visibility="@{stats.empty ? View.GONE : View.VISIBLE}" />
 
         </LinearLayout>

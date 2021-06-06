@@ -185,6 +185,18 @@ public class TasksLocalDataSource implements TasksDataSource {
     }
 
     @Override
+    public void deleteSelectedTasks(final List<String> selectedTaskIds) {
+        Runnable clearTasksRunnable = new Runnable() {
+            @Override
+            public void run() {
+                mTasksDao.deleteSelectedTasks(selectedTaskIds);
+            }
+        };
+
+        mAppExecutors.diskIO().execute(clearTasksRunnable);
+    }
+
+    @Override
     public void refreshTasks() {
         // Not required because the {@link TasksRepository} handles the logic of refreshing the
         // tasks from all the available data sources.

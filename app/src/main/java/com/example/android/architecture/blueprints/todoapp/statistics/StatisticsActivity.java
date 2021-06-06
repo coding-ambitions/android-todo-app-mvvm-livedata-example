@@ -88,8 +88,8 @@ public class StatisticsActivity extends AppCompatActivity {
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mDrawerLayout.setStatusBarBackground(R.color.colorPrimaryDark);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.getHeaderView(0).setBackgroundColor(getResources().getColor(R.color.lightBlack));
-        navigationView.setBackgroundColor(getResources().getColor(R.color.blackVariant));
+        navigationView.getHeaderView(0).setBackgroundColor(getResources().getColor(R.color.drawerHeaderColor));
+        navigationView.setBackgroundColor(getResources().getColor(R.color.drawerbgColor));
         if (navigationView != null) {
             setupDrawerContent(navigationView);
         }

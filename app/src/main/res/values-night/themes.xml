@@ -10,8 +10,9 @@
         <item name="colorPrimaryVariant">@color/blackVariant</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="windowActionModeOverlay">true</item>
+
         <!--  background color of activities -->
-        <item name="android:colorBackground">@color/blackVariant</item>
+        <item name="android:colorBackground">@color/colorBackground</item>
 
         <item name="android:textColorPrimary">@color/white</item>
 

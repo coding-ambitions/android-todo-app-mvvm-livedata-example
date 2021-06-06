@@ -24,9 +24,15 @@ import com.example.android.architecture.blueprints.todoapp.Event;
 import com.example.android.architecture.blueprints.todoapp.R;
 import com.example.android.architecture.blueprints.todoapp.ViewModelFactory;
 import com.example.android.architecture.blueprints.todoapp.addedittask.AddEditTaskActivity;
+import com.example.android.architecture.blueprints.todoapp.data.source.TasksRepository;
+import com.example.android.architecture.blueprints.todoapp.data.source.local.TasksLocalDataSource;
+import com.example.android.architecture.blueprints.todoapp.data.source.local.ToDoDatabase;
+import com.example.android.architecture.blueprints.todoapp.data.source.remote.TasksRemoteDataSource;
 import com.example.android.architecture.blueprints.todoapp.statistics.StatisticsActivity;
 import com.example.android.architecture.blueprints.todoapp.taskdetail.TaskDetailActivity;
 import com.example.android.architecture.blueprints.todoapp.util.ActivityUtils;
+import com.example.android.architecture.blueprints.todoapp.util.AppExecutors;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.appcompat.app.ActionBar;
@@ -42,6 +48,7 @@ import androidx.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.example.android.architecture.blueprints.todoapp.Event;
 import com.example.android.architecture.blueprints.todoapp.R;
@@ -69,11 +76,13 @@ public class TasksActivity extends AppCompatActivity implements TaskItemNavigato
 
     private TasksViewModel mViewModel;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tasks_act);
 
+        final FloatingActionButton fab_add_task = findViewById(R.id.fab_add_task);
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
 
@@ -106,11 +115,28 @@ public class TasksActivity extends AppCompatActivity implements TaskItemNavigato
                 }
             }
         });
+
+        mViewModel.getMultiSelectMode().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if(aBoolean){
+                    fab_add_task.setVisibility(View.GONE);
+                }else{
+                    fab_add_task.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
     public static TasksViewModel obtainViewModel(FragmentActivity activity) {
         // Use a Factory to inject dependencies into the ViewModel
         ViewModelFactory factory = ViewModelFactory.getInstance(activity.getApplication());
+
+        //alternative without injection
+       // ToDoDatabase database = ToDoDatabase.getInstance(activity);
+       // TasksRepository tR = TasksRepository.getInstance(TasksRemoteDataSource.getInstance(), TasksLocalDataSource.getInstance(new AppExecutors(),database.taskDao()));
+       // ViewModelFactory factory = ViewModelFactory.getInstance(activity.getApplication(),tR);
+
 
         //TasksViewModel viewModel = ViewModelProviders.of(activity, factory).get(TasksViewModel.class);
         TasksViewModel viewModel = ViewModelProviders.of(activity, factory).get(TasksViewModel.class);

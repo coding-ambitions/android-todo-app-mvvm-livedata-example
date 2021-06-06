@@ -28,4 +28,6 @@ public interface TaskItemUserActionsListener {
     void onCompleteChanged(Task task, View v);
 
     void onTaskClicked(Task task,View view);
+
+    void onRadiobuttonClicked(Task task,View view, View parentView);
 }

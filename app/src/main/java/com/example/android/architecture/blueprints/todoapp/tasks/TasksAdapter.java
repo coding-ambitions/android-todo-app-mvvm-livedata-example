@@ -23,7 +23,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.RadioButton;
 
+import com.example.android.architecture.blueprints.todoapp.R;
 import com.example.android.architecture.blueprints.todoapp.data.Task;
 import com.example.android.architecture.blueprints.todoapp.databinding.TaskItemBinding;
 
@@ -32,6 +34,7 @@ import java.util.List;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
 
 
 public class TasksAdapter extends BaseAdapter {
@@ -42,6 +45,7 @@ public class TasksAdapter extends BaseAdapter {
     private List<String> selectedtaskids = new ArrayList<>();
 
     private LifecycleOwner mLifecycleOwner;
+    TaskItemBinding binding;
 
     //private boolean multiSelectMode = false;
 
@@ -74,7 +78,7 @@ public class TasksAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, final View view, final ViewGroup viewGroup) {
-        TaskItemBinding binding;
+
         if (view == null) {
             // Inflate
             LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
@@ -85,7 +89,9 @@ public class TasksAdapter extends BaseAdapter {
             // Recycling view
             binding = DataBindingUtil.getBinding(view);
             final Task currentTask = mTasks.get(position);
-            view.setBackgroundColor(currentTask.isSelected() ? Color.CYAN : Color.TRANSPARENT);
+            RadioButton select = view.findViewById(R.id.select);
+            select.setChecked(currentTask.isSelected());
+           // view.setBackgroundColor(currentTask.isSelected() ? Color.GRAY : Color.TRANSPARENT);
             view.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
@@ -101,6 +107,17 @@ public class TasksAdapter extends BaseAdapter {
                     return true;
                 }
             });
+
+            /*mTasksViewModel.getSelectedTaskIds().observe(mLifecycleOwner, new Observer<List<String>>() {
+                @Override
+                public void onChanged(List<String> strings) {
+                    if(strings.size()==0){
+                        //undo checked state of radiobuttons
+                        RadioButton select = view.findViewById(R.id.select);
+                        select.setChecked(false);
+                    }
+                }
+            });*/
         }
 
         TaskItemUserActionsListener userActionsListener = new TaskItemUserActionsListener() {
@@ -121,12 +138,19 @@ public class TasksAdapter extends BaseAdapter {
                 }
 
             }
+
+            @Override
+            public void onRadiobuttonClicked(Task task, View view, View parentView) {
+                selectItem(task,parentView);
+            }
         };
 
         binding.setTask(mTasks.get(position));
         binding.setLifecycleOwner(mLifecycleOwner);
 
         binding.setListener(userActionsListener);
+
+        binding.setTaskViewModel(mTasksViewModel);
 
         binding.executePendingBindings();
         return binding.getRoot();
@@ -138,20 +162,28 @@ public class TasksAdapter extends BaseAdapter {
     }
 
     private void selectItem(Task currentTask,View view){
+
+        mTasksViewModel.openSelectTaskActionMode();
+
         if(currentTask.isSelected()){
             selectedtaskids.remove(currentTask.getId());
         }else{
-            selectedtaskids.add(currentTask.getId());
+            if(!selectedtaskids.contains(currentTask.getId())){
+                selectedtaskids.add(currentTask.getId());
+            }
         }
 
         mTasksViewModel.updateSelectedTaskIds(selectedtaskids);
 
         currentTask.setSelected(!currentTask.isSelected());
+
         if(view!=null){
-            view.setBackgroundColor(currentTask.isSelected() ? Color.CYAN : Color.TRANSPARENT);
+            RadioButton select = view.findViewById(R.id.select);
+            select.setChecked(currentTask.isSelected());
+            //view.setBackgroundColor(currentTask.isSelected() ? Color.GRAY : Color.TRANSPARENT);
         }
 
-        mTasksViewModel.openSelectTaskActionMode();
+
     }
 
 
